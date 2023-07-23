@@ -1,0 +1,118 @@
+<!-- popup.html -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HackFocus Popup</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.16/tailwind.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+
+        .popup-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: left;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .blocklist-item i {
+            cursor: pointer;
+        }
+
+        #addSiteButton {
+            padding: 10px 20px;
+            background-color: #63b3ed;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #addSiteButton i {
+            margin-right: 8px;
+        }
+
+        #siteInput {
+            padding: 8px;
+            border: 1px solid #cbd5e0;
+            border-radius: 5px;
+        }
+
+        #pointsDisplay {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .focus-health-message {
+            margin-top: 20px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="popup-container">
+        <div class=" mb-3 flex items-center  justify-center">
+            <img class="w-12" src="/icons/logo.png" alt="">
+            <span class="text-xl text-blue-400 font-bold block">Procrasti<span class="text-red-400">Nope!</span></span>
+        </div>
+
+        <h2>Blocklist</h2>
+        <ul id="blocklist">
+            <!-- Blocked sites will be dynamically added here -->
+            <li class="blocklist-item">
+                <span>example.com</span>
+                <i class="fas fa-times text-red-500 remove-icon cursor-pointer"></i>
+            </li>
+        </ul>
+
+        <div class="mt-4 text-left">
+            <label for="siteInput">Add Site to Blocklist:</label>
+            <div class="flex items-center">
+                <input type="text" id="siteInput" placeholder="example.com" class="mr-2 flex-1">
+                <button id="addSiteButton" class="flex items-center">
+                    <i class="fas fa-check"></i> Add
+                </button>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Focus Health: <span id="pointsDisplay">0</span></h2>
+        <p class="focus-health-message font-medium text-green-600">Zero distractions! <i
+                class="fa-regular fa-hourglass-half"></i></p>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>
