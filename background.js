@@ -30,3 +30,42 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
         }
     });
 });
+
+
+//Notification
+
+// Function to show the desktop notification with text and image
+function showNotification() {
+    const popupMessages = [
+        {
+            text: "It's okay, just have fun",
+            imageUrl: "https://pbs.twimg.com/media/EwGvJq0WQAI61HI.jpg"
+        },
+        {
+            text: "Stay focused and conquer distractions!",
+            imageUrl: "https://project-static-assets.s3.amazonaws.com/APISpreadsheets/APIMemes/WhyDidServerCross.png"
+        },
+
+    ];
+
+    const randomIndex = Math.floor(Math.random() * popupMessages.length);
+    const message = popupMessages[randomIndex];
+
+    // Create the desktop notification
+    chrome.notifications.create({
+        type: 'image',
+        iconUrl: './icons/icon128.png',
+        title: 'ProcrastiNope',
+        message: message.text,
+        imageUrl: message.imageUrl,
+    });
+}
+
+chrome.alarms.create('notificationAlarm', { periodInMinutes: 5 / 60 }); // 5 seconds
+
+// Add a listener to handle the alarm trigger
+chrome.alarms.onAlarm.addListener((alarm) => {
+    if (alarm.name === 'notificationAlarm') {
+        showNotification();
+    }
+});
