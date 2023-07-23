@@ -1,11 +1,49 @@
 
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Get the blocklist and alarm status from storage and update the UI
     updateBlocklist();
+    updateAlarmStatus();
 
     document.getElementById('addSiteButton').addEventListener('click', addSiteToBlocklist);
     document.getElementById('blocklist').addEventListener('click', removeSiteFromBlocklist);
+
+    document.getElementById('alarmToggle').addEventListener('change', handleAlarmToggle);
 });
+
+// Function to handle the user's preference for the alarm status
+function handleAlarmToggle(event) {
+    const alarmEnabled = event.target.checked;
+
+    // Save the user's preference in the storage
+    chrome.storage.sync.set({ alarmEnabled }, () => {
+        // Show a notification to let the user know the preference has been saved
+        const notificationOptions = {
+            type: 'basic',
+            iconUrl: './icons/icon48.png',
+            title: 'ProcrastiNope',
+            message: `Hourly Meme Alarm ${alarmEnabled ? 'enabled' : 'disabled'}.`,
+        };
+
+        chrome.notifications.create(notificationOptions);
+
+        // Update the alarm status in the UI based on the user's preference
+        const alarmToggle = document.getElementById('alarmToggle');
+        alarmToggle.checked = alarmEnabled;
+
+        // Update the alarm status in the background script
+        chrome.runtime.sendMessage({ type: 'updateAlarmStatus', alarmEnabled });
+    });
+}
+
+// Function to update the alarm status in the UI based on the user's preference
+function updateAlarmStatus() {
+    chrome.storage.sync.get('alarmEnabled', (data) => {
+        const alarmToggle = document.getElementById('alarmToggle');
+        alarmToggle.checked = data.alarmEnabled !== false;
+    });
+}
+
 
 
 function addSiteToBlocklist() {

@@ -2,7 +2,7 @@
 function isBlockedSite(url) {
     return new Promise((resolve) => {
         chrome.storage.sync.get('blocklist', (data) => {
-            const { blocklist } = data;
+            const blocklist = data.blocklist ? data.blocklist : [];
             const blocked = blocklist.some((site) => url.startsWith(site));
             resolve(blocked);
         });
@@ -15,12 +15,12 @@ function redirectToBlocked(tabId) {
     chrome.tabs.update(tabId, { url: redirectUrl });
 }
 
-//listener for onBeforeNavigate events to check if the site is blocked
+// check if the site is blocked
 chrome.webNavigation.onBeforeNavigate.addListener((details) => {
     const { url, tabId } = details;
     isBlockedSite(url).then((blocked) => {
         if (blocked) {
-            // block the navigation to the blocked site and redirect to the blocked page
+            // block the page
             chrome.webNavigation.onCompleted.addListener(function onCompletedListener(details) {
                 if (details.tabId === tabId && details.url === url) {
                     chrome.webNavigation.onCompleted.removeListener(onCompletedListener);
@@ -32,9 +32,51 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
 });
 
 
-//Notification
 
-// Function to show the desktop notification with text and image
+//*****************************************Notification*****************************************
+
+
+function setupHourlyMemeAlarm() {
+    // Check if the alarm exists
+    chrome.alarms.get('notificationAlarm', (alarm) => {
+        if (chrome.runtime.lastError) {
+            // create new alarm
+            chrome.alarms.create('notificationAlarm', { periodInMinutes: 60 });
+        }
+    });
+
+    // explicitly set in storage
+    chrome.storage.sync.get('alarmEnabled', (data) => {
+        if (data.alarmEnabled !== false) {
+            chrome.alarms.create('notificationAlarm', { periodInMinutes: 60 });
+        }
+    });
+}
+
+//  alarm events
+chrome.alarms.onAlarm.addListener((alarm) => {
+    if (alarm.name === 'notificationAlarm') {
+        showNotification();
+    }
+});
+
+//  installed or updated
+setupHourlyMemeAlarm();
+
+// Handle messages from the popup
+chrome.runtime.onMessage.addListener((message) => {
+    if (message.type === 'updateAlarmStatus') {
+        const alarmEnabled = message.alarmEnabled;
+        chrome.storage.sync.set({ alarmEnabled });
+        if (alarmEnabled) {
+            chrome.alarms.create('notificationAlarm', { periodInMinutes: 60 });
+        } else {
+            chrome.alarms.clear('notificationAlarm');
+        }
+    }
+});
+
+// text and image
 function showNotification() {
     const popupMessages = [
         {
@@ -107,8 +149,6 @@ function showNotification() {
         imageUrl: message.imageUrl,
     });
 }
-chrome.alarms.create('notificationAlarm', { periodInMinutes: 60 });
-// chrome.alarms.create('notificationAlarm', { periodInMinutes: 5 / 60 }); // 5 seconds
 
 // alarm trigger
 chrome.alarms.onAlarm.addListener((alarm) => {
