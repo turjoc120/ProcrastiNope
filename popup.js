@@ -3,7 +3,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Get the blocklist, points, and overall dedication from storage and update the UI
     updateBlocklist();
-    updatePointsDisplay();
 
     // Add event listeners for adding and removing sites
     document.getElementById('addSiteButton').addEventListener('click', addSiteToBlocklist);
@@ -15,7 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
 function addSiteToBlocklist() {
     const siteInput = document.getElementById('siteInput');
     const siteUrl = siteInput.value.trim();
-    if (siteUrl !== '') {
+
+    // Regular expression to validate the URL format
+    const urlPattern = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,})(\/\S*)?$/i;
+
+    if (siteUrl !== '' && urlPattern.test(siteUrl)) {
         chrome.storage.sync.get('blocklist', (data) => {
             const blocklist = data.blocklist || []; // Initialize blocklist as an empty array if it doesn't exist
             if (!blocklist.includes(siteUrl)) {
@@ -26,6 +29,8 @@ function addSiteToBlocklist() {
             }
         });
         siteInput.value = ''; // Clear the input field
+    } else {
+        alert('Invalid website URL. Please enter a valid URL starting with "http://" or "https://"');
     }
 }
 
@@ -60,13 +65,4 @@ function removeSiteFromBlocklist(event) {
             });
         });
     }
-}
-
-// Function to update and display the user's points
-function updatePointsDisplay() {
-    chrome.storage.sync.get('points', (data) => {
-        const { points } = data;
-        const pointsDisplay = document.getElementById('pointsDisplay');
-        pointsDisplay.textContent = points;
-    });
 }
