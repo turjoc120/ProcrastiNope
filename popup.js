@@ -1,7 +1,7 @@
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Get the blocklist and points from storage and update the UI
+    // Get the blocklist, points, and overall dedication from storage and update the UI
     updateBlocklist();
     updatePointsDisplay();
 
@@ -10,19 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('blocklist').addEventListener('click', removeSiteFromBlocklist);
 });
 
-// Function to get the blocklist from storage and update the UI
-function updateBlocklist() {
-    chrome.storage.sync.get('blocklist', (data) => {
-        const blocklist = data.blocklist || []; // If blocklist doesn't exist in storage, initialize it as an empty array
-        const blocklistElement = document.getElementById('blocklist');
-        blocklistElement.innerHTML = ''; // Clear the list before updating
-        blocklist.forEach((site) => {
-            const li = document.createElement('li');
-            li.textContent = site;
-            blocklistElement.appendChild(li);
-        });
-    });
-}
 
 
 function addSiteToBlocklist() {
@@ -42,7 +29,6 @@ function addSiteToBlocklist() {
     }
 }
 
-// Rest of the existing functions (updatePointsDisplay, addSiteToBlocklist)
 
 // Function to get the blocklist from storage and update the UI
 function updateBlocklist() {
@@ -84,5 +70,3 @@ function updatePointsDisplay() {
         pointsDisplay.textContent = points;
     });
 }
-
-
