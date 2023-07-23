@@ -38,20 +38,67 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
 function showNotification() {
     const popupMessages = [
         {
-            text: "It's okay, just have fun",
+            text: "Just Keep Coding",
             imageUrl: "https://pbs.twimg.com/media/EwGvJq0WQAI61HI.jpg"
         },
         {
-            text: "Stay focused and conquer distractions!",
-            imageUrl: "https://project-static-assets.s3.amazonaws.com/APISpreadsheets/APIMemes/WhyDidServerCross.png"
+            text: "No Bugs, Only Features",
+            imageUrl: "https://i.imgflip.com/5k15th.jpg"
         },
-
+        {
+            text: "Debugging Time!",
+            imageUrl: "https://i.imgflip.com/1wnc14.jpg"
+        },
+        {
+            text: "Mission Accomplished",
+            imageUrl: "https://i.imgflip.com/5ymyt4.jpg"
+        },
+        {
+            text: "It Works!",
+            imageUrl: "https://i.imgflip.com/7tbmy3.jpg"
+        },
+        {
+            text: "No Errors Found",
+            imageUrl: "https://i.imgflip.com/7axmy9.jpg"
+        },
+        {
+            text: "Deleted Production Data",
+            imageUrl: "https://i.imgflip.com/593suk.jpg"
+        },
+        {
+            text: "Code Compiles!",
+            imageUrl: "https://i.imgflip.com/5q0fne.jpg"
+        },
+        {
+            text: "Ready for Deployment",
+            imageUrl: "https://i.imgflip.com/7se9qk.jpg"
+        },
+        {
+            text: "Finding That Bug",
+            imageUrl: "https://i.imgflip.com/7rr99o.jpg"
+        },
+        {
+            text: "Coding in Progress",
+            imageUrl: "https://i.imgflip.com/7ofm85.jpg"
+        },
+        {
+            text: "Writing Unit Tests",
+            imageUrl: "https://i.imgflip.com/53gwkw.jpg"
+        },
+        {
+            text: "Coffee, Code, Repeat",
+            imageUrl: "https://i.imgflip.com/797zwv.jpg"
+        },
+        {
+            text: "Version Control: Saved",
+            imageUrl: "https://i.imgflip.com/7ikbq6.jpg"
+        },
     ];
 
     const randomIndex = Math.floor(Math.random() * popupMessages.length);
     const message = popupMessages[randomIndex];
 
-    // Create the desktop notification
+    // notification template
     chrome.notifications.create({
         type: 'image',
         iconUrl: './icons/icon128.png',
@@ -60,10 +107,10 @@ function showNotification() {
         imageUrl: message.imageUrl,
     });
 }
+chrome.alarms.create('notificationAlarm', { periodInMinutes: 60 });
+// chrome.alarms.create('notificationAlarm', { periodInMinutes: 5 / 60 }); // 5 seconds
 
-chrome.alarms.create('notificationAlarm', { periodInMinutes: 5 / 60 }); // 5 seconds
-
-// Add a listener to handle the alarm trigger
+// alarm trigger
 chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === 'notificationAlarm') {
         showNotification();
