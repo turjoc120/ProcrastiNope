@@ -1,7 +1,7 @@
 
 # ProcrastiNope 
 
-ProcrastiNope is a browser extension designed to help users stay focused and avoid distractions, especially during hackathons or anyting serious you are doing. Inspired by the "StayFocused" extension, ProcrastiNope empowers users to block distracting websites, track their productivity, and receive hourly motivational notifications to keep them on track.
+ProcrastiNope is a browser extension designed to help users stay focused and avoid distractions, especially during hackathons or anyting serious you are doing. It is inspired by the "StayFocused" extension, ProcrastiNope empowers users to block distracting websites, track their productivity, and receive hourly motivational notifications to keep them on track.
 
 ![Screenshot](https://i.ibb.co/HFkrn4X/ss1.png)
 
