@@ -10,7 +10,7 @@ ProcrastiNope is a browser extension designed to help users stay focused and avo
 
 ## Features 💫
 
--   Block distracting websites during and beat Procrastination.
+-   Block distracting websites and beat Procrastination.
 -   Create and manage a personalized blocklist of distracting sites.
 -   Receive hourly motivational notifications to boost productivity.
 -   Easily enable or disable the hourly meme alarm .
